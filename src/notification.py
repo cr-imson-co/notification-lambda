@@ -1,5 +1,13 @@
 #!/usr/bin/env python
-''' Automated SNS/Lambda-based notification service via apprise. '''
+'''
+#
+# cr.imson.co
+#
+# Automated SNS/Lambda-based notification service via apprise
+#
+# @author Damian Bushong <katana@odios.us>
+#
+'''
 
 # pylint: disable=C0116,C0301,C0411,W0511
 
