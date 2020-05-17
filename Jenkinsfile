@@ -48,10 +48,10 @@ pipeline {
         HOME = "${env.WORKSPACE}"
       }
       steps {
-        sh "pip install --user --no-cache -r ${env.WORKSPACE}/deps/boto3layer/requirements.txt"
-        sh "pip install --user --no-cache -r ${env.WORKSPACE}/deps/xraylayer/requirements.txt"
-        sh "pip install --user --no-cache -r ${env.WORKSPACE}/deps/appriselayer/requirements.txt"
-        sh "pip install --user --no-cache -e ${env.WORKSPACE}/deps/crimsoncore/lib/"
+        sh "pip install --user --no-cache --progress-bar off -r ${env.WORKSPACE}/deps/boto3layer/requirements.txt"
+        sh "pip install --user --no-cache --progress-bar off -r ${env.WORKSPACE}/deps/xraylayer/requirements.txt"
+        sh "pip install --user --no-cache --progress-bar off -r ${env.WORKSPACE}/deps/appriselayer/requirements.txt"
+        sh "pip install --user --no-cache --progress-bar off -e ${env.WORKSPACE}/deps/crimsoncore/lib/"
 
         sh "find ${env.WORKSPACE}/src -type f -iname '*.py' -print0 | xargs -0 python -m pylint"
       }
