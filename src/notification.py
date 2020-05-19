@@ -12,7 +12,6 @@
 # pylint: disable=C0116,C0301,C0411,W0511
 
 import json
-import time
 
 import apprise
 
@@ -27,10 +26,6 @@ LAMBDA.init_s3()
 LAMBDA.init_ssm()
 
 def lambda_handler(event, context):
-    start_time = str(int(time.time() * 1000))
-    log_name = f'{LAMBDA_NAME}_{start_time}.log'
-    LAMBDA.change_logfile(log_name)
-
     try:
         payload = json.loads(event.get('Records')[0].get('Sns').get('Message'))
 
@@ -45,15 +40,7 @@ def lambda_handler(event, context):
         LAMBDA.logger.info('Dispatched notification via apprise')
     except Exception:
         LAMBDA.logger.error('Fatal error during script runtime', exc_info=True)
-
-        # do our best to fire off the emergency flare
-        error_log_dest = f'logs/{LAMBDA_NAME}/{log_name}'
-        with open(f'{LAMBDA.config.get_log_path()}/{log_name}', 'r') as file:
-            LAMBDA.archive_log_file(error_log_dest, file.read())
-
         # Because we're in the notification lambda...we can't dispatch a panic notification.  :(
         # just raise it and hope someone notices, I guess.
 
         raise
-    finally:
-        LAMBDA.change_logfile(f'{LAMBDA_NAME}_interim.log')
