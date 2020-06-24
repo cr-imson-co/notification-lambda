@@ -28,7 +28,7 @@ pipeline {
   }
   agent {
     docker {
-      image "docker.cr.imson.co/python-lambda-layer-builder:${PYTHON_VERSION}"
+      image "docker.cr.imson.co/python-lambda-builder:${PYTHON_VERSION}"
     }
   }
   environment {
@@ -48,9 +48,9 @@ pipeline {
         HOME = "${env.WORKSPACE}"
       }
       steps {
-        sh "pip install --user --no-cache --progress-bar off -r ${env.WORKSPACE}/deps/boto3layer/requirements.txt"
         sh "pip install --user --no-cache --progress-bar off -r ${env.WORKSPACE}/deps/xraylayer/requirements.txt"
         sh "pip install --user --no-cache --progress-bar off -r ${env.WORKSPACE}/deps/appriselayer/requirements.txt"
+        sh "pip install --user --no-cache --progress-bar off -r ${env.WORKSPACE}/deps/crimsoncore/deps/boto3/requirements.txt"
         sh "pip install --user --no-cache --progress-bar off -e ${env.WORKSPACE}/deps/crimsoncore/lib/"
 
         sh "find ${env.WORKSPACE}/src -type f -iname '*.py' -print0 | xargs -0 python -m pylint"
